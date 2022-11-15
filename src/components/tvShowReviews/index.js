@@ -7,20 +7,18 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Link } from "react-router-dom";
-import { getMovieReviews } from "../../api/tmdb-api";
+import { getTvShowReviews } from "../../api/tmdb-api";
 import { excerpt } from "../../util";
 
-export default function MovieReviews({ movie }) {
+export default function TvShowReviews({ tvShow }) {
   const [reviews, setReviews] = useState([]);
- 
 
   useEffect(() => {
-    getMovieReviews(movie.id).then((reviews) => {
+    getTvShowReviews(tvShow.id).then((reviews) => {
       setReviews(reviews);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
 
   return (
     <TableContainer component={Paper}>
@@ -41,10 +39,10 @@ export default function MovieReviews({ movie }) {
               <TableCell >{excerpt(r.content)}</TableCell>
               <TableCell >
               <Link
-                  to={`/reviews/${r.id}`}
+                  to={`/tvShowReviews/${r.id}`}
                   state={{
                       review: r,
-                      movie: movie,
+                      tvShow: tvShow,
                   }}
                 >
                   Full Review

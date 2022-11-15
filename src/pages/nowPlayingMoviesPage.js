@@ -1,14 +1,14 @@
 import React, {useState,useEffect} from "react";
 import PageTemplate from '../components/templateMovieListPage'
-import { getUpcomingMoviesPage } from "../api/tmdb-api";
+import { getNowPlayingMoviesPage } from "../api/tmdb-api";
 import { useQuery } from 'react-query';
 import Spinner from '../components/spinner';
 import PlaylistAddIcon from '../components/cardIcons/addToPlaylist'
 
 
-const UpcomingMoviesPage = (props) => {
+const NowPlayingMoviesPage = (props) => {
   const [page,setPage] = useState(1)
-  const {  data, error, isLoading, isError,refetch }  = useQuery("upcoming", () => getUpcomingMoviesPage(page),{enabled: true }) 
+  const {  data, error, isLoading, isError,refetch }  = useQuery("now_playing", () => getNowPlayingMoviesPage(page),{enabled: true }) 
 
 
   useEffect(() => { 
@@ -36,7 +36,7 @@ const UpcomingMoviesPage = (props) => {
   return (
     <PageTemplate
       pages={total_pages} //For Pagination
-      title='Upcoming Movies'
+      title='Playing in Cinemas'
       movies={movies}
       setPage={setPage}
       action={(movie) => {
@@ -45,4 +45,4 @@ const UpcomingMoviesPage = (props) => {
     />
   );
 };
-export default UpcomingMoviesPage;
+export default NowPlayingMoviesPage;

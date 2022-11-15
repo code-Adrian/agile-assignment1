@@ -3,16 +3,14 @@ import React, { useState } from "react";
 export const TvContext = React.createContext(null);
 
 const TvContextProvider = (props) => {
-  const [playlists, setPlaylists] = useState( [] )
   const [favorites, setFavorites] = useState( [] )
   const [myReviews, setMyReviews] = useState( {} ) 
   console.log('Favourite array: '+favorites)
-  console.log('Playlist array: '+playlists)
 
-  const addToFavorites = (movie) => {
+  const addToFavoritesTvShow = (tvShow) => {
     let newFavorites = [];
-    if (!favorites.includes(movie.id)){
-      newFavorites = [...favorites, movie.id];
+    if (!favorites.includes(tvShow.id)){
+      newFavorites = [...favorites, tvShow.id];
     }
     else{
       newFavorites = [...favorites];
@@ -20,35 +18,33 @@ const TvContextProvider = (props) => {
     setFavorites(newFavorites)
   };
 
-  const addToPlaylist = (movie) => {
-    let newPlaylists = [];
-    if (!playlists.includes(movie.id)){
-      newPlaylists = [...playlists, movie.id];
-    }
-    else{
-      newPlaylists = [...playlists];
-    }
-    setPlaylists(newPlaylists)
+  // const addToPlaylist = (tvShow) => {
+  //   let newPlaylists = [];
+  //   if (!playlists.includes(tvShow.id)){
+  //     newPlaylists = [...playlists, tvShow.id];
+  //   }
+  //   else{
+  //     newPlaylists = [...playlists];
+  //   }
+  //   setPlaylists(newPlaylists)
+  // };
+
+  const addReview = (tvShow, review) => {
+    setMyReviews( {...myReviews, [tvShow.id]: review } )
   };
 
-  const addReview = (movie, review) => {
-    setMyReviews( {...myReviews, [movie.id]: review } )
-  };
-
-  const removeFromFavorites = (movie) => {
-    setFavorites( favorites.filter(
-      (mId) => mId !== movie.id
-    ) )
-  };
+  // const removeFromFavorites = (tvShow) => {
+  //   setFavorites( favorites.filter(
+  //     (mId) => mId !== tvShow.id
+  //   ) )
+  // };
 
   return (
     <TvContext.Provider
       value={{
-        playlists,
         favorites,
-        addToFavorites,
-        addToPlaylist,
-        removeFromFavorites,
+        addToFavoritesTvShow,
+     //   removeFromFavorites,
         addReview,
       }}
     >

@@ -18,20 +18,20 @@ import { TvContext } from "../../contexts/tvContext";
 
 
 
-export default function TvCard({movie, action}) {
-  const { favorites,playlists } = useContext(TvContext);
+export default function TvCard({tvShow, action}) {
+  const { favorites } = useContext(TvContext);
 
-  if (favorites.find((id) => id === movie.id)) {
-    movie.favorite = true;
+  if (favorites.find((id) => id === tvShow.id)) {
+    tvShow.favorite = true;
   } else {
-    movie.favorite = false
+    tvShow.favorite = false
   }
 
-  if (playlists.find((id) => id === movie.id)) {
-    movie.playlist = true;
-  } else {
-    movie.playlist = false
-  }
+  // if (playlists.find((id) => id === tvShow.id)) {
+  //   tvShow.playlist = true;
+  // } else {
+  //   tvShow.playlist = false
+  // }
 
 
 
@@ -40,11 +40,11 @@ export default function TvCard({movie, action}) {
     <Card sx={{ maxWidth: 345, backgroundImage: "url('https://wallpaperboat.com/wp-content/uploads/2019/10/high-resolution-black-background-06.jpg')" }} >
             <CardHeader
         avatar={
-          movie.favorite ? (
+          tvShow.favorite ? (
             <Avatar sx={{ backgroundColor: 'red' }}>
               <FavoriteIcon />
             </Avatar>
-          ) : movie.playlist ? (
+          ) : tvShow.playlist ? (
             <Avatar sx={{ backgroundColor: 'red' }}>
               <PlaylistTagIcon />
             </Avatar>
@@ -53,15 +53,15 @@ export default function TvCard({movie, action}) {
         
         title={
           <Typography sx={{color: 'white'}} variant="h6" component="p">
-            {movie.name}{" "}
+            {tvShow.name}{" "}
           </Typography>
         }
       />
       <CardMedia
         sx={{ height: 500 }}
         image={
-          movie.poster_path
-            ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
+          tvShow.poster_path
+            ? `https://image.tmdb.org/t/p/w500/${tvShow.poster_path}`
             : img
         }
       />
@@ -70,20 +70,20 @@ export default function TvCard({movie, action}) {
           <Grid item xs={7}>
             <Typography variant="h6" component="p">
               <CalendarIcon fontSize="small" />
-              {" "}{movie.first_air_date}
+              {" "}{tvShow.first_air_date}
             </Typography>
           </Grid>
           <Grid item xs={6}>
             <Typography variant="h6" component="p">
               <StarRateIcon fontSize="small" />
-              {"  "} {movie.vote_average}{" "}
+              {"  "} {tvShow.vote_average}{" "}
             </Typography>
           </Grid>
         </Grid>
       </CardContent>
       <CardActions disableSpacing>
-        {action(movie)}
-        <Link to={`/tvShow/${movie.id}`}>
+        {action(tvShow)}
+        <Link to={`/tvShow/${tvShow.id}`}>
           <Button variant="outlined" size="medium" color="primary">
             More Info ...
           </Button>

@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from "react";
-import { getMoviesPage } from "../api/tmdb-api";
+import { getPopularMoviesPage } from "../api/tmdb-api";
 import PageTemplate from '../components/templateMovieListPage';
 import { useQuery } from 'react-query';
 import Spinner from '../components/spinner';
@@ -9,7 +9,7 @@ import AddToFavoritesIcon from '../components/cardIcons/addToFavorites'
 const HomePage = (props) => {
   const [page,setPage] = useState(1)
 
-  const  {  data, error, isLoading, isError,refetch }  = useQuery("discover", () => getMoviesPage(page),{enabled: true }) 
+  const  {  data, error, isLoading, isError,refetch }  = useQuery("popular", () => getPopularMoviesPage(page),{enabled: true }) 
 
 
   useEffect(() => { 
@@ -41,9 +41,8 @@ const HomePage = (props) => {
 
   return (
     
-    <PageTemplate title="Discover Movies" movies={movies} current_page = {current_page} pages={500} setPage={setPage} action={(movie) => {
+    <PageTemplate title="Popular Movies" movies={movies} current_page = {current_page} pages={500} setPage={setPage} action={(movie) => {
         return <AddToFavoritesIcon movie={movie} />}}
-        
         />  
         
 );

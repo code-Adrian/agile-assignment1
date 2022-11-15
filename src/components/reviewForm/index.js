@@ -40,15 +40,21 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     alignItems: "left",
+    color: "white",
+    borderRadius: "2em",
+    padding: "2em",
+    backgroundColor: "rgba(255,255,255,0.05)",
   },
   form: {
     width: "100%",
     "& > * ": {
       marginTop: 2,
+      
     },
   },
   textField: {
-    width: "40ch",
+    width: "20ch",
+    
   },
   submit: {
     marginRight: 2,
@@ -133,7 +139,8 @@ const ReviewForm = ({ movie }) => {
           defaultValue=""
           render={({ field: { onChange, value } }) => (
             <TextField
-              sx={{ width: "40ch" }}
+              sx={{ width: "40ch",input: { color: 'white' } }}
+              InputLabelProps={{style: {color: 'white'}}}
               variant="outlined"
               margin="normal"
               required
@@ -159,8 +166,10 @@ const ReviewForm = ({ movie }) => {
             minLength: { value: 10, message: "Review is too short" },
           }}
           defaultValue=""
-          render={({ field: { onChange, value } }) => (
+          render={({ field: { onChange, value }, }) => (
             <TextField
+              inputProps={{ style: { color: "white" } }}
+              InputLabelProps={{style: {color: 'white'}}}
               variant="outlined"
               margin="normal"
               required
@@ -186,6 +195,7 @@ const ReviewForm = ({ movie }) => {
           name="rating"
           render={({ field: { onChange, value } }) => (
             <TextField
+              InputLabelProps={{style: {color: 'white'}}}
               id="select-rating"
               select
               variant="outlined"

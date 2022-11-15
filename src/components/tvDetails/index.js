@@ -2,17 +2,15 @@ import React, { useState } from "react";
 import Chip from "@mui/material/Chip";
 import Paper from "@mui/material/Paper";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import MonetizationIcon from "@mui/icons-material/MonetizationOn";
 import StarRate from "@mui/icons-material/StarRate";
 import NavigationIcon from "@mui/icons-material/Navigation";
 import Fab from "@mui/material/Fab";
 import Typography from "@mui/material/Typography";
 import Drawer from "@mui/material/Drawer";
-import MovieReviews from "../movieReviews"
-import AccessibilityNewIcon from '@mui/icons-material/AccessibilityNew';
+import TvShowReviews from "../tvShowReviews"
 import Grid from "@mui/material/Grid";
+import AccessibilityNewIcon from '@mui/icons-material/AccessibilityNew';
 import { Link } from "react-router-dom";
-
 const root = {
     display: "flex",
     justifyContent: "center",
@@ -30,9 +28,9 @@ color: 'rgba(255,255,255,0.6)'
 }
 const chip = { margin: 0.5 };
 
-const MovieDetails = ({ movie }) => {  // Don't miss this!
+const TvDetails = ({ tvShow }) => {  // Don't miss this!
   const [drawerOpen, setDrawerOpen] = useState(false);
-
+ 
 
   return (
     <>
@@ -41,7 +39,7 @@ const MovieDetails = ({ movie }) => {  // Don't miss this!
       </Typography>
 
       <Typography sx={{...detail}} variant="h6" component="p">
-        {movie.overview}
+        {tvShow.overview}
       </Typography>
 
       <Paper 
@@ -49,9 +47,9 @@ const MovieDetails = ({ movie }) => {  // Don't miss this!
         sx={{...root}}
       >
         <li>
-          <Chip label="Genres" sx={{...chip}} color="primary" />
+        <Chip label="Genres" sx={{...chip}} color="primary" />
         </li>
-        {movie.genres.map((g) => (
+        {tvShow.genres.map((g) => (
           <li key={g.name}>
             <Chip label={g.name} sx={{...chip}} />
           </li>
@@ -60,16 +58,12 @@ const MovieDetails = ({ movie }) => {  // Don't miss this!
 
 
       <Paper component="ul" sx={{...root}}>
-        <Chip icon={<AccessTimeIcon />} label={`${movie.runtime} min.`} />
-        <Chip
-          icon={<MonetizationIcon />}
-          label={`${movie.revenue.toLocaleString()}`}
-        />
+        <Chip icon={<AccessTimeIcon />} label={`${tvShow.episode_run_time} min.`} />
         <Chip
           icon={<StarRate />}
-          label={`${movie.vote_average} (${movie.vote_count}`}
+          label={`${tvShow.vote_average} (${tvShow.vote_count}`}
         />
-        <Chip label={`Released: ${movie.release_date}`} />
+        <Chip label={`Released: ${tvShow.first_air_date}`} />
       </Paper>
 
 
@@ -80,16 +74,17 @@ const MovieDetails = ({ movie }) => {  // Don't miss this!
         <li>
           <Chip label="Production Companies" sx={{...chip}} color="primary" />
         </li>
-        {movie.production_companies.map((g) => (
+        {tvShow.production_companies.map((g) => (
           <li key={g.name}>
             <Chip label={g.name} sx={{...chip}} />
           </li>
         ))}
       </Paper>
+
       <Grid sx={{position: 'fixed', bottom: '1em',right: '1%'}} item xs={12} sm={6} md={4} lg={3} xl={2}>
       <Fab variant="extended" color="secondary" sx={{marginRight: "1vw"}} >
           <AccessibilityNewIcon/>
-          <Link style={{textDecoration: 'none', color: "white"}} to={`/credits/${movie.id}`} state={{movie: movie}}>
+          <Link style={{textDecoration: 'none', color: "white"}} to={`/creditsTv/${tvShow.id}`} state={{tvShow: tvShow}}>
           Credits
         </Link>
       </Fab>
@@ -102,12 +97,11 @@ const MovieDetails = ({ movie }) => {  // Don't miss this!
         Reviews
       </Fab>
       <Drawer anchor="top" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
-        <MovieReviews movie={movie} />
+        <TvShowReviews tvShow={tvShow} />
       </Drawer>
 
     </Grid>
-
       </>
   );
 };
-export default MovieDetails ;
+export default TvDetails ;

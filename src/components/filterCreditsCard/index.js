@@ -9,10 +9,8 @@ import SearchIcon from "@mui/icons-material/Search";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import img from '../../images/pexels-dziana-hasanbekava-5480827.jpg'
-import { getGenres } from "../../api/tmdb-api";
-import { useQuery } from "react-query";
-import Spinner from '../spinner'
 
+import React from "react";
 
 const formControl = 
   {
@@ -21,29 +19,10 @@ const formControl =
     backgroundColor: "rgb(255, 255, 255)"
   };
 
-export default function FilterMoviesCard(props) {
+export default function FilterCreditsCard(props) {
 
-  let arr = [{"id":0,"rating":"All ratings"},{"id":1,"rating":"Best rating (8+)"},{"id":2,"rating":"Good rating (5-8)"},{"id":3,"rating":"Not great rating (0-5)"}]
-
-  const { data, error, isLoading, isError } = useQuery("genres", getGenres);
-
-  if (isLoading) {
-    return <Spinner />;
-  }
-
-  if (isError) {
-    return <h1>{error.message}</h1>;
-  }
-
-  if (arr[0].rating !== "All ratings"){
-    arr.unshift({ id: "0", rating: "All ratings" });
-  }
-
-  const genres = data.genres;
-  if (genres[0].name !== "All"){
-    genres.unshift({ id: "0", name: "All" });
-  }
-
+    let arr = [{"id":0,"name":"Crew"},{"id":1,"name":"Cast"}]
+ 
   const handleChange = (e, type, value) => {
     e.preventDefault();
     props.onUserInput(type, value); // NEW
@@ -54,12 +33,9 @@ export default function FilterMoviesCard(props) {
   };
 
   const handleGenreChange = (e) => {
-    handleChange(e, "genre", e.target.value);
+    handleChange(e, "involved", e.target.value);
   };
 
-const handleRatingChange = (e) => {
-  handleChange(e,"rating",e.target.value)
-}
 
   return (
     <Card 
@@ -71,7 +47,7 @@ const handleRatingChange = (e) => {
       <CardContent>
         <Typography variant="h5" component="h1">
           <SearchIcon fontSize="large" />
-          Filter the movies.
+          Filter Credits.
         </Typography>
            <TextField
            sx={{...formControl}}
@@ -79,47 +55,27 @@ const handleRatingChange = (e) => {
            label="Search field"
            type="search"
            variant="filled"
-           value={props.titleFilter}
+           value={props.nameFilter}
            onChange={handleTextChange}
     />
         <FormControl sx={{...formControl}}>
-          <InputLabel id="genre-label">Genre</InputLabel>
+          <InputLabel id="involved-label">Involved</InputLabel>
           <Select
-    labelId="genre-label"
-    id="genre-select"
+    labelId="involved-label"
+    id="involved-select"
     defaultValue=""
-    value={props.genreFilter}
+    value={props.involvedPeopleFilter}
     onChange={handleGenreChange}
   >
-            {genres.map((genre) => {
+            {arr.map((involve) => {
               return (
-                <MenuItem key={genre.id} value={genre.id}>
-                  {genre.name}
+                <MenuItem key={involve.id} value={involve.id}>
+                  {involve.name}
                 </MenuItem>
               );
             })}
           </Select>
         </FormControl>
-
-        <FormControl sx={{...formControl}}>
-          <InputLabel id="rating-label">Rating</InputLabel>
-          <Select
-    labelId="rating-label"
-    id="rating-select"
-    defaultValue=""
-    value={props.ratingFilter}
-    onChange={handleRatingChange}
-  >
-            {arr.map((rating) => {
-              return (
-                <MenuItem key={rating.id} value={rating.id}>
-                  {rating.rating}
-                </MenuItem>
-              );
-            })}
-          </Select>
-        </FormControl>
-
       </CardContent>
       <CardMedia
         sx={{ height: 300 }}

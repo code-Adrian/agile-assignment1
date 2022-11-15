@@ -1,14 +1,14 @@
 import React from "react";
-import TvShow from "../tvCard";
+import TvCard from "../tvCard";
 import Grid from "@mui/material/Grid";
 
-const TvList = ( {movies, action }) => {
-  let movieCards = movies.map((m) => (
+const TvList = ( {tvShows, action }) => {
+  let TvShowCards = tvShows.map((m) => (
     <Grid key={m.id} item xs={12} sm={6} md={4} lg={3} xl={2}>
-      <TvShow key={m.id} movie={m} action={action} />
+      <TvCard key={m.id} tvShow={m} action={action} />
     </Grid>
   ));
-  return movieCards;
+  return TvShowCards;
 };
 
 export default TvList;

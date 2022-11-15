@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Header from "../headerMovieList";
 import FilterCard from "../filterMoviesCard";
-import MovieList from "../movieList";
+import TvList from "../tvList";
 import Grid from "@mui/material/Grid";
 import { Pagination } from "@mui/material";
 import {makeStyles} from "@material-ui/core"
@@ -9,18 +9,17 @@ import Fab from "@mui/material/Fab";
 import * as auth from "firebase/auth"
 import fireapp from "../../firebase";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(theme => ({
   root: {
     position: "fixed",
     overflow: "hidden",
     bottom: 0,
     zIndex: 200,
-    backgroundColor: "rgba(95,90,90,0.9)",
+    backgroundColor: "rgba(95,90,90,0.8)",
     padding: "5px 0px",
     color: "white",
     width: "100vw",
-    marginLeft: "-2vw",
-    
+    marginLeft: "-2vw", 
   },
   signOut: {
     position: "fixed",
@@ -40,17 +39,18 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-function MovieListPageTemplate({ movies, title, action, pages,setPage,current_page }) {
+function TvPageListTemplate({ tvShows, title, action, pages,setPage }) {
+
   //States
   const [nameFilter, setNameFilter] = useState("");
   const [genreFilter, setGenreFilter] = useState("0");
   const [ratingFilter, setRatingFilter] = useState("0");
 
   const genreId = Number(genreFilter);
- 
+
   
-  let displayedMovies = movies.filter((m) => {
-      return m.title.toLowerCase().search(nameFilter.toLowerCase()) !== -1;
+  let displayedtvShows = tvShows.filter((m) => {
+      return m.name.toLowerCase().search(nameFilter.toLowerCase()) !== -1;
     }).filter((m) => {
       return genreId > 0 ? m.genre_ids.includes(genreId) : true;
     }).filter((m) => {
@@ -73,40 +73,31 @@ function MovieListPageTemplate({ movies, title, action, pages,setPage,current_pa
         return m;
   })
 
-
-
   const handleChange = (type, value) => {
-  //  if(type === "name"){
-    if (type === "name") {
-    setNameFilter(value);
+    //  if(type === "name"){
+      if (type === "name") {
+      setNameFilter(value);
+      }
+      if(type === "genre"){
+        setGenreFilter(value);
+      }
+   // }
+  
+    if(type === "rating"){
+      setRatingFilter(value)
     }
-    if(type === "genre"){
-      setGenreFilter(value);
-    }
- // }
-
-  if(type === "rating"){
-    setRatingFilter(value)
-  }
-   // console.log(type)
-  };
+     // console.log(type)
+    };
 
 
   const handleOnChange = (page) =>{
-    
-      
-    
     setPage(page)
     window.scroll(0,0)
-  
-    
-  
   }
   const classes = useStyles();
   return (
-  
+   
     <Grid container sx={{ padding: '20px', backgroundColor: "rgba(0,0,0,0.1)" } }>
-       
       <Grid item xs={12}>
         <Header title={title} />
       </Grid>
@@ -119,17 +110,16 @@ function MovieListPageTemplate({ movies, title, action, pages,setPage,current_pa
             ratingFilter={ratingFilter}
           />
         </Grid>
-        <MovieList action={action} movies={displayedMovies}></MovieList>
+        <TvList action={action} tvShows={displayedtvShows}></TvList>
       </Grid>
       <div className={classes.root}>
-      
-        <Pagination count={pages} defaultPage={1} color="primary" size="large" hideNextButton hidePrevButton variant="outlined" shape="rounded" onChange={(e) => handleOnChange(e.target.textContent)} style={{
+        <Pagination count={pages} defaultPage={1} color="primary" hideNextButton hidePrevButton size="large" variant="outlined" shape="rounded" onChange={(e) => handleOnChange(e.target.textContent)} style={{
           display: "flex",
           justifyContent: "center",
         }} />
         </div>
         <div className={classes.signOut}>
-        <Fab color="primary" variant="extended" onClick={() => auth.signOut(fireapp)}>Sign Out!</Fab>
+        <Fab color="primary" variant="extended" onClick={() => auth.signOut(fireapp)}> Sign Out!</Fab>
         </div>
         <div className={classes.deleteAccount}>
         <Fab color="secondary" variant="extended" onClick={() => auth.deleteUser(fireapp.currentUser)}>Delete Account!</Fab>
@@ -138,4 +128,4 @@ function MovieListPageTemplate({ movies, title, action, pages,setPage,current_pa
     
   );
 }
-export default MovieListPageTemplate;
+export default TvPageListTemplate;
