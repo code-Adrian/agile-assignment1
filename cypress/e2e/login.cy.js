@@ -53,7 +53,7 @@ describe("Testing Logging in", () => {
         cy.get("input[name='email']").type(email+email);
         cy.get("input[name='password']").type(password);
         cy.get("button[type='submit']").click();
-        cy.get("h1").contains("auth/missing-email");
+        cy.get("h1").contains("auth/invalid-email");
     });
 
        it("Missing Password check", () => {
