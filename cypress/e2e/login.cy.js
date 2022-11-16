@@ -45,8 +45,16 @@ describe("Testing Logging in", () => {
            cy.checkUrl("/signup");
            cy.get("input[name='password']").type(password);
            cy.get("button[type='submit']").click();
-           cy.get("h1").contains("auth/email-already-in-use");
+           cy.get("h1").contains("auth/missing-email");
        });
+
+       it("Invalid Email check", () => {
+        cy.checkUrl("/signup");
+        cy.get("input[name='email']").type(email+email);
+        cy.get("input[name='password']").type(password);
+        cy.get("button[type='submit']").click();
+        cy.get("h1").contains("auth/missing-email");
+    });
 
        it("Missing Password check", () => {
            cy.checkUrl("/signup");
