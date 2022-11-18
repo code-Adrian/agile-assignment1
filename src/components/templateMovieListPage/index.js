@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, lazy, Suspense } from "react";
 import Header from "../headerMovieList";
-import FilterCard from "../filterMoviesCard";
+import Spinner from '../spinner';
 import MovieList from "../movieList";
 import Grid from "@mui/material/Grid";
 import { Pagination } from "@mui/material";
@@ -8,6 +8,7 @@ import {makeStyles} from "@material-ui/core"
 import Fab from "@mui/material/Fab";
 import * as auth from "firebase/auth"
 import fireapp from "../../firebase";
+const FilterCard = lazy(() => import("../filterMoviesCard"));
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -112,12 +113,14 @@ function MovieListPageTemplate({ movies, title, action, pages,setPage,current_pa
       </Grid>
       <Grid item container spacing={5} >
         <Grid key="find" item xs={12} sm={6} md={4} lg={3} xl={2}>
+        <Suspense fallback={<Spinner/>}>
           <FilterCard
             onUserInput={handleChange}
             titleFilter={nameFilter}
             genreFilter={genreFilter}
             ratingFilter={ratingFilter}
           />
+          </Suspense>
         </Grid>
         <MovieList action={action} movies={displayedMovies}></MovieList>
       </Grid>

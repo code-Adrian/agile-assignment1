@@ -1,8 +1,9 @@
-import React, { useState }  from "react";
+import React, { useState, lazy, Suspense } from "react";
 import Header from "../headerMovieList";
-import FilterCard from "../filterCreditsCard";
+import Spinner from '../spinner';
 import MovieCreditsList from "../movieCreditsList";
 import Grid from "@mui/material/Grid";
+const FilterCard = lazy(() => import("../filterCreditsCard"));
 
 function MovieCreditsPageTemplate({ title,creditsCrew,creditsCast }) {
 
@@ -42,12 +43,16 @@ const handleChange = (type, value) => {
       </Grid>
       <Grid item container spacing={5} >
       <Grid key="find" item xs={12} sm={6} md={4} lg={3} xl={2}>
-          { <FilterCard
+      <Suspense fallback={<Spinner/>}>
+          { 
+          <FilterCard
             onUserInput={handleChange}
             nameFilter={nameFilter}
             involvedPeopleFilter={involvedFilter}
             credits={creditsCrew}
+            
           /> }
+          </Suspense>
         </Grid>
         <MovieCreditsList credits={noDuplicateCredits}></MovieCreditsList>
       </Grid>

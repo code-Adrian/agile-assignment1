@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, lazy, Suspense } from "react";
 import Header from "../headerMovieList";
-import FilterCard from "../filterMoviesCard";
 import TvList from "../tvList";
+import Spinner from '../spinner';
 import Grid from "@mui/material/Grid";
 import { Pagination } from "@mui/material";
 import {makeStyles} from "@material-ui/core"
+const FilterCard = lazy(() => import("../filterMoviesCard"));
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -56,11 +57,13 @@ function TvPageTemplate({ movies, title, action, pages,setPage }) {
       </Grid>
       <Grid item container spacing={5} >
         <Grid key="find" item xs={12} sm={6} md={4} lg={3} xl={2}>
+        <Suspense fallback={<Spinner/>}>
           <FilterCard
             onUserInput={handleChange}
             titleFilter={nameFilter}
             genreFilter={genreFilter}
           />
+          </Suspense>
         </Grid>
         <TvList action={action} movies={displayedMovies}></TvList>
       </Grid>
