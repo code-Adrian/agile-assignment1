@@ -41,12 +41,12 @@ describe("Paginate each endpoint and check the second and last page comparing re
     
     cy.request(`https://api.themoviedb.org/3/movie/upcoming?api_key=${Cypress.env(
         "TMDB_KEY"
-        )}&language=en-US&include_adult=false&include_video=false&page=2`).its("body").then((response) => {
+        )}&language=en-US&include_adult=false&page=2`).its("body").then((response) => {
     upcomingMoviesPage2 = response.results;
 
     cy.request(`https://api.themoviedb.org/3/movie/upcoming?api_key=${Cypress.env(
         "TMDB_KEY"
-        )}&language=en-US&include_adult=false&include_video=false&page=${paginateLimit(response.total_pages)}`).its("body").then((response) => {
+        )}&language=en-US&include_adult=false&page=${paginateLimit(response.total_pages)}`).its("body").then((response) => {
     upcomingMoviesLastPage = response.results;});
     
     upcomingMoviesTotalPages = paginateLimit(response.total_pages);
