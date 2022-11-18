@@ -86,12 +86,12 @@ describe("Paginate each endpoint and check the second and last page comparing re
 
     cy.request(`https://api.themoviedb.org/3/tv/popular?api_key=${Cypress.env(
         "TMDB_KEY"
-        )}&language=en-US&include_adult=false&page=2`).its("body").then((response) => {
+        )}&language=en-US&page=2`).its("body").then((response) => {
     tvShowsPage2 = response.results;
 
     cy.request(`https://api.themoviedb.org/3/tv/popular?api_key=${Cypress.env(
         "TMDB_KEY"
-        )}&language=en-US&include_adult=false&page=${paginateLimit(response.total_pages)}`).its("body").then((response) => {
+        )}&language=en-US&page=${paginateLimit(response.total_pages)}`).its("body").then((response) => {
     tvShowsLastPage = response.results;});
 
     tvShowsTotalPages = paginateLimit(response.total_pages);
