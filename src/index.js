@@ -1,29 +1,33 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import { BrowserRouter, Route, Navigate, Routes } from "react-router-dom";
-import HomePage from "./pages/homePage";
-import MoviePage from "./pages/movieDetailsPage";
-import FavoriteMoviesPage from "./pages/favoriteMoviesPage";
-import NowPlayingMoviesPage from "./pages/nowPlayingMoviesPage";
-import PopularMoviesPage from "./pages/popularMoviesPage";
-import UpcomingMoviesPage from "./pages/upcomingMoviesPage";
-import MovieReviewPage from "./pages/movieReviewPage";
-import MovieCreditsPage from "./pages/movieCreditsPage";
-import TvCreditsPage from "./pages/tvCreditsPage";
-import TvShowReviewPage from "./pages/tvShowReviewPage";
 import SiteHeader from './components/siteHeader'
+import Spinner from './components/spinner';
 import { QueryClientProvider, QueryClient } from "react-query";
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { createRoot } from "react-dom/client";
 import MoviesContextProvider from "./contexts/moviesContext";
-import AddMovieReviewPage from './pages/addMovieReviewPage'
-import TvDetailsPage from "./pages/tvDetailsPage";
-import TvPage from "./pages/tvPage";
 import TvContextProvider from "./contexts/tvContext";
-import Login from "./components/login"
-import Signup from "./components/signup"
 import { AuthProvider } from "./contexts/auth";
-import AuthRoute from "./components/authroute";
-import NotAuthRoute from "./components/notauthroute";
+
+const HomePage = lazy(() => import("./pages/homePage"));
+const MoviePage = lazy(() => import("./pages/movieDetailsPage"));
+const FavoriteMoviesPage = lazy(() => import("./pages/favoriteMoviesPage"));
+const NowPlayingMoviesPage = lazy(() => import("./pages/nowPlayingMoviesPage"));
+const PopularMoviesPage = lazy(() => import("./pages/popularMoviesPage"));
+const UpcomingMoviesPage = lazy(() => import("./pages/upcomingMoviesPage"));
+const MovieReviewPage = lazy(() => import("./pages/movieReviewPage"));
+const MovieCreditsPage = lazy(() => import("./pages/movieCreditsPage"));
+const TvCreditsPage = lazy(() => import("./pages/tvCreditsPage"));
+const TvShowReviewPage = lazy(() => import("./pages/tvShowReviewPage"));
+const AddMovieReviewPage = lazy(() => import('./pages/addMovieReviewPage'));
+const TvDetailsPage = lazy(() => import("./pages/tvDetailsPage"));
+const TvPage = lazy(() => import("./pages/tvPage"));
+const Login = lazy(() => import("./components/login"));
+const Signup = lazy(() => import("./components/signup"));
+
+const AuthRoute = lazy(() => import("./components/authroute"));
+const NotAuthRoute = lazy(() => import("./components/notauthroute"));
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -43,17 +47,15 @@ const App = () => {
       <SiteHeader />
       <TvContextProvider>
       <MoviesContextProvider>
+      <Suspense fallback={<Spinner/>}>
       <Routes>
-
       <Route element={<NotAuthRoute/>}>
         <Route path="/login" element={<Login/>}/>
         <Route path="/signup" element={<Signup/>}/>
         </Route>
-
+      
         <Route element={<AuthRoute/>}>
          <Route path="/reviews/form" element={ <AddMovieReviewPage /> } />
-
-
           <Route path="/creditsTv/:id" element={ <TvCreditsPage /> } />
           <Route path="/credits/:id" element={ <MovieCreditsPage /> } />
          <Route path="/reviews/:id" element={ <MovieReviewPage /> } />
@@ -70,9 +72,11 @@ const App = () => {
 
 
          <Route path="/" element={<HomePage />} />
+        
          <Route path="*" element={ <Navigate to="/" /> } />
         </Route>
       </Routes>
+      </Suspense>
       </MoviesContextProvider>
       </TvContextProvider>
       </AuthProvider>

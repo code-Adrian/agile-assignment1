@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkmovies=self.webpackChunkmovies||[]).push([[66],{3066:function(e,s,n){n.r(s);var o=n(2791),t=n(7689),u=n(9998),r=n(184);s.default=function(){var e=(0,o.useContext)(u.V).currentUser;return console.log(e),e?(0,r.jsx)(t.j3,{}):(0,r.jsx)(t.Fg,{to:"/login"})}}}]);
+//# sourceMappingURL=66.5f200a36.chunk.js.map
