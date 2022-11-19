@@ -65,5 +65,8 @@ describe("Testing Logging in", () => {
        it("Github fork demonstration - team leader", () => {
             cy.log("Some functionality from team leader");
        });
+       it("Github fork demonstration - contributor", () => {
+        cy.log("Some functionality from the contributor.");
+   });
    });
 });
