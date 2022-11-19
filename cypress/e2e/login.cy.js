@@ -62,5 +62,8 @@ describe("Testing Logging in", () => {
            cy.get("button[type='submit']").click();
            cy.get("h1").contains("auth/internal-error");
        });
+       it("Github fork demonstration - team leader", () => {
+            cy.log("Some functionality from team leader");
+       });
    });
 });
